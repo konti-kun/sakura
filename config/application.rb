@@ -29,5 +29,10 @@ module Sakura
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.generators do |g|
+      g.javascript false
+      g.asset false
+      g.helper false
+    end
   end
 end
