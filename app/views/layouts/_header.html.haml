@@ -15,10 +15,8 @@
             %a.nav-link.dropdown-toggle.py-2.btn.btn-sm#navDropDown{href:'#', role: 'button', data: {toggle: "dropdown"}, aria: {haspopup: "true", expended: "false"}}
               メニュー
             .dropdown-menu.dropdown-menu-right{aria: {labelledby: "navDropDown"}}
-              = link_to "マイページ", users_path(current_user), class: 'dropdown-item'
-              .dropdown-divider
-              = link_to "ユーザ情報変更", edit_user_registration_path, class: 'dropdown-item'
-              = link_to "パスワード変更", users_edit_password_path, class: 'dropdown-item'
+              - if current_user.is_admin?
+                = link_to "商品の登録",new_product_path, class: 'dropdown-item'
               .dropdown-divider
               = link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'dropdown-item'
       - elsif !no_menu_actions.include?(controller_string)
