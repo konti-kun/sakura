@@ -424,7 +424,21 @@ SimpleForm.setup do |config|
     range:         :vertical_range,
     time:          :vertical_multi_select
   }
-
+  config.wrappers :horizontal_long_label_form, tag: 'div' , class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+    b.use :html5
+    b.use :placeholder
+    b.optional :maxlength
+    b.optional :minlength
+    b.optional :pattern
+    b.optional :min_max
+    b.optional :readonly
+    b.use :label, class: 'col-sm-5 col-form-label'
+    b.wrapper :grid_wrapper, tag: 'div', class: 'col-sm-7' do |ba|
+      ba.use :input, class: 'form-control', error_class: 'is-invalid'
+      ba.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
+      ba.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
+    end
+  end     
   # enable custom form wrappers
   # config.wrapper_mappings = {
   #   boolean:       :custom_boolean,

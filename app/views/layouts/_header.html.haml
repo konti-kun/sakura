@@ -1,0 +1,31 @@
+%nav.navbar.fixed-top.navbar-dark.bg-success.navbar-expand-sm
+  .container
+    %a.navbar-brand{href: '/'}
+      さくらマーケット
+    %button.navbar-toggler{type: "button", data: {toggle: "collapse",target: "#Navbar"}, aria: {controls: "Navbar", expended: "false"}}
+      %span.navbar-toggler-icon
+    .collapse.navbar-collapse#Navbar
+      - controller_string = "#{controller_name}_#{action_name}"
+      - no_menu_actions = %w(sessions_new registrations_new)
+      - if user_signed_in?
+        %ul.navbar-nav.mr-auto
+        %ul.navbar-nav
+          %li.nav-item
+          %li.nav-item.dropdown
+            %a.nav-link.dropdown-toggle.py-2.btn.btn-sm#navDropDown{href:'#', role: 'button', data: {toggle: "dropdown"}, aria: {haspopup: "true", expended: "false"}}
+              メニュー
+            .dropdown-menu.dropdown-menu-right{aria: {labelledby: "navDropDown"}}
+              = link_to "マイページ", users_path(current_user), class: 'dropdown-item'
+              .dropdown-divider
+              = link_to "ユーザ情報変更", edit_user_registration_path, class: 'dropdown-item'
+              = link_to "パスワード変更", users_edit_password_path, class: 'dropdown-item'
+              .dropdown-divider
+              = link_to "ログアウト", destroy_user_session_path, method: :delete, class: 'dropdown-item'
+      - elsif !no_menu_actions.include?(controller_string)
+        %ul.navbar-nav.mr-auto
+        %ul.navbar-nav
+          %li.nav-item
+            = link_to "ユーザ登録", new_user_registration_path, class: 'nav-link btn btn-outline-light btn-sm'
+          %li.nav-item
+            = link_to "ログイン", new_user_session_path, class: 'nav-link btn btn-sm'
+          %li.nav-item
