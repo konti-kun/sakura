@@ -1,5 +1,8 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :is_admin?, only: [:new]
+
+  class PermissionError < ActionController::ActionControllerError; end
 
   # GET /products
   # GET /products.json
@@ -62,6 +65,12 @@ class ProductsController < ApplicationController
   end
 
   private
+
+    def is_admin?
+      if not current_user.is_admin?
+        raise PermissionError
+      end
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
