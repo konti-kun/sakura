@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %w(show edit update destroy)
-  before_action :is_admin?, only: %w(index new create update destroy)
+  before_action :is_admin?, only: %w(index new edit create update destroy)
 
   class PermissionError < ActionController::ActionControllerError; end
 
@@ -55,7 +55,7 @@ class ProductsController < ApplicationController
   private
 
     def is_admin?
-      if not current_user.is_admin?
+      if not current_user&.is_admin?
         raise PermissionError
       end
     end
