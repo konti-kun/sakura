@@ -1,24 +1,19 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @product.name
-%p
-  %b Image:
-  = @product.image
-%p
-  %b Price:
-  = @product.price
-%p
-  %b Explanation:
-  = @product.explanation
-%p
-  %b Is displayed:
-  = @product.is_displayed
-%p
-  %b Sort key:
-  = @product.sort_key
+.row
+  .col
+    %h2
+      = @product.name
+.row
+  .col
+    = image_tag @product.image.to_s
+.row
+  .col
+    %b 価格:
+    = @product.price.to_s + "円"
+.row
+  .col
+    = @product.explanation
 
-= link_to 'Edit', edit_product_path(@product)
-\|
-= link_to 'Back', products_path
+- if current_user&.is_admin?
+  = link_to '編集', edit_product_path(@product)
