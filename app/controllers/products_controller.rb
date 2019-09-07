@@ -1,31 +1,23 @@
 class ProductsController < ApplicationController
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
-  before_action :is_admin?, only: [:new]
+  before_action :set_product, only: %w(show edit update destroy)
+  before_action :is_admin?, only: %w(index new create update destroy)
 
   class PermissionError < ActionController::ActionControllerError; end
 
-  # GET /products
-  # GET /products.json
   def index
-    @products = Product.all
+    @products = Product.all.order('sort_key DESC').page(params[:page]).per(20)
   end
 
-  # GET /products/1
-  # GET /products/1.json
   def show
   end
 
-  # GET /products/new
   def new
     @product = Product.new
   end
 
-  # GET /products/1/edit
   def edit
   end
 
-  # POST /products
-  # POST /products.json
   def create
     @product = Product.new(product_params)
 
@@ -40,8 +32,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /products/1
-  # PATCH/PUT /products/1.json
   def update
     respond_to do |format|
       if @product.update(product_params)
@@ -54,8 +44,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  # DELETE /products/1
-  # DELETE /products/1.json
   def destroy
     @product.destroy
     respond_to do |format|
@@ -71,12 +59,12 @@ class ProductsController < ApplicationController
         raise PermissionError
       end
     end
-    # Use callbacks to share common setup or constraints between actions.
+  
     def set_product
       @product = Product.find(params[:id])
     end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+  
     def product_params
       params.require(:product).permit(:name, :image, :price, :explanation, :is_displayed, :sort_key)
     end

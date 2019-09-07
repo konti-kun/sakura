@@ -1,6 +1,6 @@
 %h1 Listing products
 
-%table
+%table.table
   %thead
     %tr
       %th Name
@@ -17,7 +17,8 @@
     - @products.each do |product|
       %tr
         %td= product.name
-        %td= product.image
+        %td
+          = image_tag product.image.to_s, size: "100x100"
         %td= product.price
         %td= product.explanation
         %td= product.is_displayed
@@ -27,5 +28,7 @@
         %td= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }
 
 %br
+.row.mt-4.justify-content-center
+  = paginate @products
 
 = link_to 'New Product', new_product_path
