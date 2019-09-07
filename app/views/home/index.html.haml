@@ -1,2 +1,10 @@
-%h1 Home#index
-%p Find me in app/views/home/index.html.haml
+.row
+  - @products.each do |product|
+    .col-sm-12.col-md-4
+      .card.img-thumbnail
+        = image_tag product.image.to_s,class: 'card-img-top'
+        .card-body.px-2.py-3
+          %h5.card-title
+            = link_to product.name, product_path(product)
+.row.mt-4.justify-content-center
+  = paginate @products
