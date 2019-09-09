@@ -11,5 +11,9 @@
         = f.input :password, label: false, placeholder: 'パスワード', input_html: { autocomplete: "new-password" }
       .form-inputs
         = f.input :password_confirmation, label: false, placeholder: '確認用パスワード', input_html: { autocomplete: "new-password" }
+      .form-inputs
+        = f.simple_fields_for :end_user, @user.end_user do |b|
+          = b.input :name, label: false, placeholder: '名前'
+          = b.input :address, label: false, placeholder: '住所'
       .form-actions
         = f.button :submit, "登録", class: 'btn-success btn-block'

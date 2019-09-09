@@ -3,6 +3,11 @@ class RegistrationsController < Devise::RegistrationsController
 
   end
 
+  def new
+    @user = User.new
+    @end_user = @user.build_end_user
+  end
+
   def edit_password
     @user = User.find(current_user.id)
   end
