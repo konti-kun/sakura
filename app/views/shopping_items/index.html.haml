@@ -1,0 +1,19 @@
+%h1 ショッピングカート
+
+- @shopping_items.each do |shopping_item|
+  .media
+    %a.mr-3{href:'#'}
+      - product = shopping_item.product
+      = image_tag product.image.to_s, size: '100x100'
+    .media-body
+      %h5.mt-0
+        = product.name
+      %div
+        = "#{product.price}円"
+      %div
+        = "#{shopping_item.number}個"
+      .float-right
+        = link_to '削除する', shopping_item_path(shopping_item), method: :delete
+
+
+= link_to 'New Shopping item', new_shopping_item_path

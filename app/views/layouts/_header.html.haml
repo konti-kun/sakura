@@ -9,6 +9,9 @@
       - no_menu_actions = %w(sessions_new registrations_new)
       - if user_signed_in?
         %ul.navbar-nav.mr-auto
+          %li.nav-item
+            - if not current_user.is_admin?
+              = link_to "ショッピングカート", shopping_items_path, class: 'nav-link'
         %ul.navbar-nav
           %li.nav-item
           %li.nav-item.dropdown

@@ -9,6 +9,7 @@ class ProductsController < ApplicationController
   end
 
   def show
+    @shopping_item = ShoppingItem.new(product: @products)
   end
 
   def new
