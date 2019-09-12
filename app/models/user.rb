@@ -5,5 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one :end_user
   has_many :cart, class_name: 'OrderProduct'
+  has_many :orders
   accepts_nested_attributes_for :end_user
 end
