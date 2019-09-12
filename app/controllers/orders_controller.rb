@@ -9,7 +9,8 @@ class OrdersController < ApplicationController
   end
 
   def new
-    @order = Order.new
+    end_user = current_user.end_user
+    @order = Order.new(name: end_user.name, address: end_user.address)
   end
 
   def create

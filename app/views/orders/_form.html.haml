@@ -3,10 +3,20 @@
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
+  - current_user.cart.each do |order_product|
+    .media
+      %a.mr-3{href:'#'}
+        - product = order_product.product
+        = image_tag product.image.to_s, size: '100x100'
+      .media-body
+        %h5.mt-0
+          = product.name
+        %div
+          = "#{product.price}円"
+        %div
+          = "#{order_product.number}個"
+  
   .form-inputs
-    = f.input :references
-    = f.input :name
-    = f.input :address
     = f.input :send_date
     = f.input :send_timeframe
     = f.input :total_fee
