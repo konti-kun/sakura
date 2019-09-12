@@ -2,7 +2,7 @@ class OrderProductsController < ApplicationController
   before_action :set_order_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @order_products = current_user.order_products
+    @order_products = current_user.cart
   end
 
   def show
@@ -43,7 +43,7 @@ class OrderProductsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order_product
-      @order_product = current_user.order_products.find(params[:id])
+      @order_product = current_user.cart.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
