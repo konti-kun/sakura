@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_09_160554) do
+ActiveRecord::Schema.define(version: 2019_09_12_114016) do
 
   create_table "end_users", force: :cascade do |t|
     t.integer "user_id"
@@ -19,6 +19,17 @@ ActiveRecord::Schema.define(version: 2019_09_09_160554) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_end_users_on_user_id"
+  end
+
+  create_table "order_products", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "product_id"
+    t.integer "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_order_products_on_product_id"
+    t.index ["user_id"], name: "index_order_products_on_user_id"
+    t.index [nil, nil], name: "index_shopping_items_on_user_and_product", unique: true
   end
 
   create_table "products", force: :cascade do |t|
@@ -30,17 +41,6 @@ ActiveRecord::Schema.define(version: 2019_09_09_160554) do
     t.integer "sort_key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "shopping_items", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "product_id"
-    t.integer "number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["product_id"], name: "index_shopping_items_on_product_id"
-    t.index ["user_id"], name: "index_shopping_items_on_user_id"
-    t.index [nil, nil], name: "index_shopping_items_on_user_and_product", unique: true
   end
 
   create_table "users", force: :cascade do |t|

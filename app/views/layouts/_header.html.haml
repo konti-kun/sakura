@@ -11,7 +11,7 @@
         %ul.navbar-nav.mr-auto
           %li.nav-item
             - if not current_user.is_admin?
-              = link_to "ショッピングカート", shopping_items_path, class: 'nav-link'
+              = link_to "ショッピングカート", order_products_path, class: 'nav-link'
         %ul.navbar-nav
           %li.nav-item
           %li.nav-item.dropdown

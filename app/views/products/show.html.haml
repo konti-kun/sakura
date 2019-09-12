@@ -1,6 +1,6 @@
 %p#notice= notice
 
-= simple_form_for(@shopping_item) do |f|
+= simple_form_for(@order_product) do |f|
   - if f.object.errors[:user].present?
     = f.error :user, class: 'alert alert-danger alert-dismissible fade show'
   .row

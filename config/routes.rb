@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :shopping_items
+  resources :order_products
   devise_for :users, controllers:{
     registrations: 'registrations'
   }
