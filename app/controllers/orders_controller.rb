@@ -10,17 +10,20 @@ class OrdersController < ApplicationController
 
   def new
     end_user = current_user.end_user
-    @order = Order.new(name: end_user.name, address: end_user.address)
+    @order = Order.new(user: current_user, name: end_user.name, address: end_user.address)
   end
 
   def create
-    @order = Order.new(order_params)
-
-    if @order.save
-      redirect_to @order, notice: 'Order was successfully created.'
-    else
-      render :new
+    Order.transaction do
+      @order = Order.new(order_params)
+      @order.user = current_user
+      @order.save!
+      ids = params['order']['order_products'].map{|id| id.to_i}
+      OrderProduct.where(id: ids).update_all(order_id: @order.id)
+      redirect_to 'home#index', notice: '購入処理が完了しました。'
     end
+  rescue ActiveRecord::RecordInvalid
+    render :new
   end
 
   private
@@ -31,6 +34,6 @@ class OrdersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def order_params
-      params.require(:order).permit(:references, :name, :address, :send_date, :send_timeframe, :total_fee)
+      params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee)
     end
 end

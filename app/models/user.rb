@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_one :end_user
-  has_many :cart, class_name: 'OrderProduct'
+  has_many :cart, -> {where(order_id: nil)}, class_name: 'OrderProduct'
   has_many :orders
   accepts_nested_attributes_for :end_user
 end

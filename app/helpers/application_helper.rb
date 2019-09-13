@@ -7,4 +7,8 @@ module ApplicationHelper
           when :alert then "alert alert-error"
     end
   end
+
+  def yen(value)
+    "#{value}円"
+  end
 end
