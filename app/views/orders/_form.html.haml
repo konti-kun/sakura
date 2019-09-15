@@ -23,19 +23,19 @@
         %tbody
           %tr
             %td 商品金額合計
-            %td
+            %td#total_product_price_value
               = yen @order.calc_total_product_price
           %tr
             %td 代引き手数料
-            %td
+            %td#cod_value
               = yen @order.calc_cod
           %tr
             %td 送料
-            %td
+            %td#send_fee_value
               = yen @order.calc_send_fee
           %tr
             %td 合計
-            %td
+            %td#total_price_value
               = yen @order.calc_total_price
   .row.mt-4
     .col

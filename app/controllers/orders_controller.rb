@@ -9,6 +9,10 @@ class OrdersController < ApplicationController
   end
 
   def new
+    if not current_user.cart.exists?
+      flash[:danger] = '商品を選択してください。'
+      redirect_to controller: 'home', action: 'index'
+    end
     end_user = current_user.end_user
     @order = Order.new(user: current_user, name: end_user.name, address: end_user.address)
   end
@@ -20,7 +24,8 @@ class OrdersController < ApplicationController
       @order.save!
       ids = params['order']['order_products'].map{|id| id.to_i}
       OrderProduct.where(id: ids).update_all(order_id: @order.id)
-      redirect_to 'home#index', notice: '購入処理が完了しました。'
+      flash[:notice] = '購入処理が完了しました。'
+      redirect_to controller: 'home', action: 'index'
     end
   rescue ActiveRecord::RecordInvalid
     render :new

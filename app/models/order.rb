@@ -2,6 +2,9 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_products
 
+  validates :send_date, presence: true
+  validates :send_timeframe, presence: true
+
   enum send_timeframes: {
     '8 - 12' => 0,
     '12 - 14' => 1,
@@ -19,7 +22,7 @@ class Order < ApplicationRecord
   ]
 
   def self.create_send_date
-    send_date_range = 3.business_day.from_now.to_date .. 14.business_day.from_now.to_date
+    send_date_range = 2.business_day.from_now.to_date .. 13.business_day.from_now.to_date
     send_date_range.select {|item| item.workday? }
   end
 
@@ -31,8 +34,10 @@ class Order < ApplicationRecord
     total_price = calc_total_product_price
     cod = 0
     COD_TABLE.each{|price|
-      if price[0] < total_price
+      if price[0] <= total_price
         cod = price[1]
+      else
+        break
       end
     }
     cod
