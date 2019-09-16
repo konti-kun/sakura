@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    resources :users, only: %i[index edit update destroy]
+  end
   resources :orders
   resources :order_products
   devise_for :users, controllers:{

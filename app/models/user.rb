@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   has_one :end_user
   has_many :cart, -> {where(order_id: nil)}, class_name: 'OrderProduct'
-  has_many :orders
+  has_many :orders, :dependent => :delete_all
+  has_many :order_products, :dependent => :delete_all
   accepts_nested_attributes_for :end_user
 end

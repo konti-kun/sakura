@@ -3,6 +3,12 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
+  def is_admin?
+    if not current_user&.is_admin?
+      flash[:notice] = 'admin権限が必要です。'
+      redirect_to controller: 'home', action: 'index'
+    end
+  end
 
   def configure_permitted_parameters
     added_attrs = [:email, :password, :password_confirmation, :is_admin]
