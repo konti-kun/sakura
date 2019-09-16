@@ -1,31 +1,22 @@
-%h1 Listing orders
+%h1 購入履歴
 
-%table
+%table.table
   %thead
     %tr
-      %th References
-      %th Name
-      %th Address
-      %th Send date
-      %th Send timeframe
-      %th Total fee
-      %th
-      %th
-      %th
+      %th 購入依頼日
+      %th 発送先氏名
+      %th 発送先住所
+      %th 発送日
+      %th 発送時間帯
+      %th 合計
 
   %tbody
     - @orders.each do |order|
       %tr
-        %td= order.references
+        %td= l(order.created_at,format: :long)
         %td= order.name
         %td= order.address
         %td= order.send_date
         %td= order.send_timeframe
         %td= order.total_fee
-        %td= link_to 'Show', order
-        %td= link_to 'Edit', edit_order_path(order)
-        %td= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' }
 
-%br
-
-= link_to 'New Order', new_order_path

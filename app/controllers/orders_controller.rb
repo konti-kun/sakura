@@ -1,11 +1,8 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: %w[edit update destroy]
 
   def index
-    @orders = Order.all
-  end
-
-  def show
+    @orders = current_user.orders.order('created_at DESC').page(params[:page]).per(20)
   end
 
   def new

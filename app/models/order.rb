@@ -5,7 +5,7 @@ class Order < ApplicationRecord
   validates :send_date, presence: true
   validates :send_timeframe, presence: true
 
-  enum send_timeframes: {
+  enum send_timeframe: {
     '8 - 12' => 0,
     '12 - 14' => 1,
     '14 - 16' => 2,
