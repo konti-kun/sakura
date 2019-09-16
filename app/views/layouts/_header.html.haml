@@ -19,6 +19,7 @@
               メニュー
             .dropdown-menu.dropdown-menu-right{aria: {labelledby: "navDropDown"}}
               - if current_user.is_admin?
+                = link_to "ユーザの一覧",admin_users_path, class: 'dropdown-item'
                 = link_to "商品の登録",new_product_path, class: 'dropdown-item'
                 = link_to "商品の一覧",products_path, class: 'dropdown-item'
               .dropdown-divider
