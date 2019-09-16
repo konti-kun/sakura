@@ -27,7 +27,7 @@ class Order < ApplicationRecord
   end
 
   def calc_total_product_price
-    user.cart.includes(:product).map{ |op| op.calc_product_price}.sum
+    user.cart.map{ |op| op.calc_product_price}.sum
   end
 
   def calc_cod

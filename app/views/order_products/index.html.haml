@@ -1,19 +1,6 @@
 %h1 ショッピングカート
 
-- @order_products.each do |order_product|
-  .media
-    %a.mr-3{href:'#'}
-      - product = order_product.product
-      = image_tag product.image.to_s, size: '100x100'
-    .media-body
-      %h5.mt-0
-        = product.name
-      %div
-        = "#{product.price}円"
-      %div
-        = "#{order_product.number}個"
-      .float-right
-        = link_to '削除する', order_product_path(order_product), method: :delete
+= render partial: "order_product", collection: @order_products, as: 'order_product', locals: {delete_flg: true} 
 
 .row.create_order.mt-3
   = link_to '購入手続きへ', new_order_path
