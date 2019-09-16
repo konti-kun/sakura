@@ -37,14 +37,12 @@ RSpec.describe '購入手続きの登録', type: :system do
 
     scenario "1商品1個の場合" do
       create :order_product, user: enduser.user, product: product1, number: 1
-      sign_in enduser.user
       click_link '購入手続きへ'
       expect(find("#total_product_price_value")).to have_content '10円'
     end
 
     scenario "1商品2個の場合" do
       create :order_product, user: enduser.user, product: product1, number: 2
-      sign_in enduser.user
       click_link '購入手続きへ'
       expect(find("#total_product_price_value")).to have_content '20円'
     end
@@ -52,7 +50,6 @@ RSpec.describe '購入手続きの登録', type: :system do
     scenario "2商品2個ずつの場合" do
       create :order_product, user: enduser.user, product: product1, number: 2
       create :order_product, user: enduser.user, product: product2, number: 2
-      sign_in enduser.user
       click_link '購入手続きへ'
       expect(find("#total_product_price_value")).to have_content '60円'
     end
