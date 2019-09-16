@@ -1,18 +1,9 @@
 class OrderProductsController < ApplicationController
   before_action :set_order_product, only: [:show, :edit, :update, :destroy]
+  before_action :is_end_user?, only: %w[index create]
 
   def index
     @order_products = current_user.cart
-  end
-
-  def show
-  end
-
-  def new
-    @order_product = OrderProduct.new
-  end
-
-  def edit
   end
 
   def create
@@ -24,14 +15,6 @@ class OrderProductsController < ApplicationController
     else
       @product = @order_product.product
       render template: 'products/show'
-    end
-  end
-
-  def update
-    if @order_product.update(order_product_params)
-      redirect_to action: 'index', notice: 'カートを更新しました。'
-    else
-      render :edit
     end
   end
 

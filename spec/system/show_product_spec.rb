@@ -22,13 +22,7 @@ RSpec.describe '商品詳細', type: :system do
   end
   scenario "エンドユーザの場合、編集画面に遷移できない" do
     sign_in enduser
-    expect{visit edit_product_path product.id}.to raise_error(ProductsController::PermissionError)
-  end
-  scenario "ログインしてない場合、編集のリンクがない" do
-    visit product_path product.id
-    expect(page).to have_no_link '編集'
-  end
-  scenario "ログインしてない場合、編集画面に遷移できない" do
-    expect{visit edit_product_path product.id}.to raise_error(ProductsController::PermissionError)
+    visit edit_product_path product.id
+    expect(page).to have_content 'admin権限が必要です'
   end
 end

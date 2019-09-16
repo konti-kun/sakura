@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: %i[index edit update destroy]
   end
-  resources :orders
-  resources :order_products
+  resources :orders, only: %i[index new create]
+  resources :order_products, only: %i[index create destroy]
   devise_for :users, controllers:{
     registrations: 'registrations'
   }

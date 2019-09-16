@@ -4,6 +4,17 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
   let(:enduser){create :user, is_admin: false}
   let(:product){create :product, name: 'サンプル', price: 10}
 
+  scenario 'ログインせずカートに追加しようとするとログイン画面に遷移する' do
+      visit product_path product.id
+      click_button 'カートに追加'
+      expect(page).to have_content 'メールアドレス'
+  end
+
+  scenario 'adminユーザでカートに追加しようとするとログイン画面に遷移する' do
+      visit product_path product.id
+      expect(page).to have_no_content 'カートに追加'
+  end
+
   describe "enduserでログイン後、商品詳細から1個でショッピングカートに登録ができる" do
     before do 
       sign_in enduser

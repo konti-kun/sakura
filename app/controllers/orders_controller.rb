@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: %w[edit update destroy]
+  before_action :is_end_user?, only: %w[index new create]
 
   def index
     @orders = current_user.orders.order('created_at DESC').page(params[:page]).per(20)
@@ -29,12 +29,6 @@ class OrdersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order
-      @order = Order.find(params[:id])
-    end
-
-    # Only allow a trusted parameter "white list" through.
     def order_params
       params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee)
     end

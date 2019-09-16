@@ -19,6 +19,7 @@ RSpec.describe '商品の登録', type: :system do
 
   scenario "enduserでは商品追加はできない" do
     sign_in enduser
-    expect{visit new_product_path}.to raise_error(ProductsController::PermissionError)
+    visit new_product_path
+    expect(page).to have_content 'admin権限が必要です'
   end
 end

@@ -17,13 +17,14 @@
   .row
     .col
       = @product.explanation
-  .row.mt-3
-    .form-inputs
-      = f.input :number
-      = f.hidden_field :product_id, value: @product.id
+  - if not current_user&.is_admin?
+    .row.mt-3
+      .form-inputs
+        = f.input :number
+        = f.hidden_field :product_id, value: @product.id
 
-  .form-actions
-    = f.button :submit,'カートに追加', class: 'btn-success'
+    .form-actions
+      = f.button :submit,'カートに追加', class: 'btn-success'
 
 - if current_user&.is_admin?
   = link_to '編集', edit_product_path(@product)
