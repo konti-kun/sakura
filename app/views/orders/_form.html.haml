@@ -53,7 +53,7 @@
     .col
       .form-inputs
         = f.input :send_date, collection: Order.create_send_date
-        = f.input :send_timeframe, collection: Order.send_timeframes
+        = f.input :send_timeframe, collection: Order.send_timeframes.keys
         = f.hidden_field :name, value: @order.name 
         = f.hidden_field :address, value: @order.address
         = f.hidden_field :total_fee, value: @order.calc_total_price

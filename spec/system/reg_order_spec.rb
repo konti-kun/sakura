@@ -199,7 +199,7 @@ RSpec.describe '購入手続きの登録', type: :system do
       expect(Order.first.send_date).to eq '2019-09-19'.to_date
     end
     scenario "発送時間帯が0" do
-      expect(Order.first.send_timeframe).to eq 0
+      expect(Order.first.send_timeframe).to eq '8 - 12'
     end
     scenario "合計が982" do
       expect(Order.first.total_fee).to eq 982
