@@ -1,9 +1,11 @@
 class Order < ApplicationRecord
   belongs_to :user
   has_many :order_products
+  accepts_nested_attributes_for :order_products
 
   validates :send_date, presence: true
   validates :send_timeframe, presence: true
+  validate :check_total_fee, :check_order_products
 
   enum send_timeframe: {
     '8 - 12' => 0,
@@ -27,7 +29,7 @@ class Order < ApplicationRecord
   end
 
   def calc_total_product_price
-    user.cart.map{ |op| op.calc_product_price}.sum
+    order_products.map{ |op| op.calc_product_price}.sum
   end
 
   def calc_cod
@@ -44,15 +46,30 @@ class Order < ApplicationRecord
   end
 
   def calc_send_fee
-    total_number = user.cart.map{ |op| op.number }.sum
+    total_number = order_products.map{ |op| op.number }.sum
     600 * (total_number/5.0).ceil
   end
 
-  def calc_total_price
+  def calc_total_fee
     total_price = calc_total_product_price
     total_price += calc_cod
     total_price += calc_send_fee
     (total_price * 1.08).floor
+  end
+
+  def check_total_fee
+      if total_fee != calc_total_fee
+        errors.add(:base, "更新処理中に金額に変更がありました。金額をお確かめの上、再度購入処理をお願いします。")
+        raise ActiveRecord::RecordInvalid.new(self)
+      end
+  end
+
+  def check_order_products
+    if OrderProduct.where(id: order_product_ids).where.not(order_id: nil).exists?
+      errors.add(:base, "更新処理中に対象商品に変更がありました。内容をお確かめの上、再度購入処理をお願いします。")
+      raise ActiveRecord::RecordInvalid.new(self)
+    end
+
   end
 
 end

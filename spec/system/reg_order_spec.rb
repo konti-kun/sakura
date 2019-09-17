@@ -207,34 +207,52 @@ RSpec.describe '購入手続きの登録', type: :system do
   end
 
   scenario "購入手続き中に新たにProductが追加されていてもOrder対象にはならないこと" do
-      create :order_product, user: enduser.user, product: product1, number: 1
-      sign_in enduser.user
-      visit order_products_path
-      current_time = "2019-09-16 23:00".to_time
-      travel_to current_time do
-        click_link '購入手続きへ'
-        order_product2 = create :order_product, user: enduser.user, product: product2, number: 1
-        select '2019-09-19', from: '発送日'
-        select '8 - 12', from: '発送時間帯'
-        click_button '決定'
-        expect(order_product2.order_id).to eq nil
-      end
+    create :order_product, user: enduser.user, product: product1, number: 1
+    sign_in enduser.user
+    visit order_products_path
+    current_time = "2019-09-16 23:00".to_time
+    travel_to current_time do
+      click_link '購入手続きへ'
+      order_product2 = create :order_product, user: enduser.user, product: product2, number: 1
+      select '2019-09-19', from: '発送日'
+      select '8 - 12', from: '発送時間帯'
+      click_button '決定'
+      expect(order_product2.order_id).to eq nil
+    end
   end
 
-  scenario "update_allが失敗した場合Orderが作成されていないこと" do
-      create :order_product, user: enduser.user, product: product1, number: 1
-      sign_in enduser.user
-      visit order_products_path
-      allow(OrderProduct).to receive_message_chain(:where, :update_all).and_raise(ActiveRecord::StatementInvalid)
-      current_time = "2019-09-16 23:00".to_time
-      travel_to current_time do
-        click_link '購入手続きへ'
-        select '2019-09-19', from: '発送日'
-        select '8 - 12', from: '発送時間帯'
-        expect { click_button '決定' }.to raise_error(ActiveRecord::StatementInvalid)
-        expect(Order.count).to eq 0
-      end
-
+  scenario "購入処理中に金額変更された時、エラーになり、再確認させること" do
+    create :order_product, user: enduser.user, product: product1, number: 1
+    sign_in enduser.user
+    visit order_products_path
+    current_time = "2019-09-16 23:00".to_time
+    travel_to current_time do
+      click_link '購入手続きへ'
+      product1.price = 100
+      product1.save
+      select '2019-09-19', from: '発送日'
+      select '8 - 12', from: '発送時間帯'
+      click_button '決定'
+      expect(page).to have_content "更新処理中に金額に変更がありました。金額をお確かめの上、再度購入処理をお願いします。"
+      expect(Order.count).to eq 0
+    end
+  end
+  
+  scenario "購入処理中に対象商品が変更された時、エラーになり、再確認させること" do
+    order_product = create :order_product, user: enduser.user, product: product1, number: 1
+    sign_in enduser.user
+    visit order_products_path
+    current_time = "2019-09-16 23:00".to_time
+    travel_to current_time do
+      click_link '購入手続きへ'
+      order_product.order_id = 1
+      order_product.save
+      select '2019-09-19', from: '発送日'
+      select '8 - 12', from: '発送時間帯'
+      click_button '決定'
+      expect(page).to have_content "をお確かめの上、再度購入処理をお願いします。"
+      expect(Order.count).to eq 0
+    end
   end
 
 end

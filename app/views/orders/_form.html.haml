@@ -5,7 +5,7 @@
 
   .row.mt-4
     .col
-      = render partial: "order_products/order_product", collection: current_user.cart, as: 'order_product', locals: {delete_flg: false} 
+      = render partial: "order_products/order_product", collection: @order.order_products, as: 'order_product', locals: {delete_flg: false} 
   .row.mt-4
     .col
       %table.table
@@ -25,7 +25,7 @@
           %tr
             %td 合計
             %td#total_price_value
-              = yen @order.calc_total_price
+              = yen @order.calc_total_fee
   .row.mt-4
     .col
       %table.table
@@ -45,9 +45,9 @@
         = f.input :send_timeframe, collection: Order.send_timeframes.keys
         = f.hidden_field :name, value: @order.name 
         = f.hidden_field :address, value: @order.address
-        = f.hidden_field :total_fee, value: @order.calc_total_price
-        - current_user.cart.pluck(:id).each do |id|
-          = f.hidden_field :order_products, multiple: true, value: id
+        = f.hidden_field :total_fee, value: @order.calc_total_fee
+        - @order.order_products.each do |order_product|
+          = f.hidden_field :order_products, multiple: true, value: order_product.id
 
   .row.mt-4
     .col

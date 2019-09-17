@@ -12,15 +12,15 @@ class OrdersController < ApplicationController
     end
     end_user = current_user.end_user
     @order = Order.new(user: current_user, name: end_user.name, address: end_user.address)
+    @order.order_products = current_user.cart
   end
 
   def create
     Order.transaction do
       @order = Order.new(order_params)
       @order.user = current_user
+      @order.order_product_ids = order_products_params['order_products']
       @order.save!
-      ids = params['order']['order_products'].map{|id| id.to_i}
-      OrderProduct.where(id: ids).update_all(order_id: @order.id)
       flash[:notice] = '購入処理が完了しました。'
       redirect_to controller: 'home', action: 'index'
     end
@@ -31,5 +31,9 @@ class OrdersController < ApplicationController
   private
     def order_params
       params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee)
+    end
+    
+    def order_products_params
+      params.require(:order).permit(order_products: [])
     end
 end
