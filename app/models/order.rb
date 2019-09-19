@@ -23,6 +23,11 @@ class Order < ApplicationRecord
     [100000, 1000],
   ]
 
+  after_initialize do
+    self.name = user.end_user.name
+    self.address = user.end_user.address
+  end
+
   def self.create_send_date
     send_date_range = 2.business_day.from_now.to_date .. 13.business_day.from_now.to_date
     send_date_range.select {|item| item.workday? }

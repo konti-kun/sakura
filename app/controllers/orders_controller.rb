@@ -10,15 +10,13 @@ class OrdersController < ApplicationController
       flash[:danger] = '商品を選択してください。'
       redirect_to controller: 'home', action: 'index'
     end
-    end_user = current_user.end_user
-    @order = Order.new(user: current_user, name: end_user.name, address: end_user.address)
+    @order = current_user.orders.new
     @order.order_products = current_user.cart
   end
 
   def create
     Order.transaction do
-      @order = Order.new(order_params)
-      @order.user = current_user
+      @order = current_user.orders.new(order_params)
       @order.order_product_ids = order_products_params['order_products']
       @order.save!
       flash[:notice] = '購入処理が完了しました。'
