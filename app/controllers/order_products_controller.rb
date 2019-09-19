@@ -1,5 +1,5 @@
 class OrderProductsController < ApplicationController
-  before_action :set_order_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_order_product, only: %w[destroy]
   before_action :is_end_user?, only: %w[index create]
 
   def index
@@ -7,8 +7,7 @@ class OrderProductsController < ApplicationController
   end
 
   def create
-    @order_product = OrderProduct.new(order_product_params)
-    @order_product.user = current_user
+    @order_product = current_user.order_products.new(order_product_params)
 
     if @order_product.save
       redirect_to action: 'index', notice: 'カートに追加しました。'
@@ -19,7 +18,7 @@ class OrderProductsController < ApplicationController
   end
 
   def destroy
-    @order_product.destroy
+    @order_product.destroy!
     redirect_to action: 'index', notice: '商品を削除しました。'
   end
 
