@@ -28,10 +28,10 @@ ActiveRecord::Schema.define(version: 2019_09_12_125610) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order_id"
+    t.index ["order_id", "product_id"], name: "index_order_products_on_order_id_and_product_id", unique: true
     t.index ["order_id"], name: "index_order_products_on_order_id"
     t.index ["product_id"], name: "index_order_products_on_product_id"
     t.index ["user_id"], name: "index_order_products_on_user_id"
-    t.index [nil, nil], name: "index_shopping_items_on_user_and_product", unique: true
   end
 
   create_table "orders", force: :cascade do |t|
