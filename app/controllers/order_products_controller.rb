@@ -1,6 +1,6 @@
 class OrderProductsController < ApplicationController
   before_action :set_order_product, only: %w[destroy]
-  before_action :is_end_user?, only: %w[index create]
+  before_action :end_user?, only: %w[index create]
 
   def index
     @order_products = current_user.cart
@@ -23,13 +23,13 @@ class OrderProductsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_order_product
-      @order_product = current_user.cart.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def order_product_params
-      params.require(:order_product).permit(:product_id, :number)
-    end
+  def set_order_product
+    @order_product = current_user.cart.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def order_product_params
+    params.require(:order_product).permit(:product_id, :number)
+  end
 end

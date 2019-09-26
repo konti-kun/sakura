@@ -1,12 +1,9 @@
 class Admin::UsersController < ApplicationController
-  before_action :is_admin?
-  before_action :set_user, only: %w(edit update destroy)
-  
+  before_action :admin?
+  before_action :set_user, only: %w[edit update destroy]
+
   def index
     @users = User.includes(:end_user).where(is_admin: false).order('id').page(params[:page]).per(20)
-  end
-
-  def edit
   end
 
   def update
@@ -23,13 +20,12 @@ class Admin::UsersController < ApplicationController
   end
 
   private
-  
-    def set_user
-      @user = User.find(params[:id])
-    end
-  
-    def user_params
-      params.require(:user).permit(:email, end_user_attributes: [:id, :name, :address])
-    end
 
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:email, end_user_attributes: %i[id name address])
+  end
 end

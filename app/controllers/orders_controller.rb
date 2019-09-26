@@ -1,12 +1,12 @@
 class OrdersController < ApplicationController
-  before_action :is_end_user?, only: %w[index new create]
+  before_action :end_user?, only: %w[index new create]
 
   def index
     @orders = current_user.orders.order('created_at DESC').page(params[:page]).per(20)
   end
 
   def new
-    if not current_user.cart.exists?
+    unless current_user.cart.exists?
       flash[:danger] = '商品を選択してください。'
       redirect_to controller: 'home', action: 'index'
     end
@@ -27,11 +27,12 @@ class OrdersController < ApplicationController
   end
 
   private
-    def order_params
-      params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee)
-    end
-    
-    def order_products_params
-      params.require(:order).permit(order_products: [])
-    end
+
+  def order_params
+    params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee)
+  end
+
+  def order_products_params
+    params.require(:order).permit(order_products: [])
+  end
 end
