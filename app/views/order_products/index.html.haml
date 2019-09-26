@@ -1,6 +1,6 @@
 %h1 ショッピングカート
 
-= render partial: "order_product", collection: @order_products, as: 'order_product', locals: {delete_flg: true} 
+= render partial: "order_product", collection: @order_products, as: 'order_product', locals: {delete_flg: true}
 
 .row.create_order.mt-3
   = link_to '購入手続きへ', new_order_path

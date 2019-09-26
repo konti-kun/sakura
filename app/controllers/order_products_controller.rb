@@ -13,7 +13,7 @@ class OrderProductsController < ApplicationController
       redirect_to action: 'index', notice: 'カートに追加しました。'
     else
       @product = @order_product.product
-      render template: 'products/show'
+      render 'products/show'
     end
   end
 
