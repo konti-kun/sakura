@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'エンドユーザ向け購入履歴一覧', type: :system do
-  let(:adminuser){create :user, is_admin: true}
-  let(:user){create :user, is_admin: false }
+  let(:adminuser){create :user, admin: true}
+  let(:user){create :user, admin: false }
   let(:enduser){create :end_user, user: user, name: '桜太郎', address: '神奈川県' }
   let(:product){create :product, name: 'サンプル1', is_displayed: true}
 

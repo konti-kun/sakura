@@ -17,7 +17,7 @@
   .row
     .col
       = @product.explanation
-  - if not current_user&.is_admin?
+  - if not current_user&.admin?
     .row.mt-3
       .form-inputs
         = f.input :number
@@ -26,5 +26,5 @@
     .form-actions
       = f.button :submit,'カートに追加', class: 'btn-success'
 
-- if current_user&.is_admin?
+- if current_user&.admin?
   = link_to '編集', edit_product_path(@product)

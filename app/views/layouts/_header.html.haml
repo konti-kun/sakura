@@ -10,7 +10,7 @@
       - if user_signed_in?
         %ul.navbar-nav.mr-auto
           %li.nav-item
-            - if not current_user.is_admin?
+            - if not current_user.admin?
               = link_to "ショッピングカート", order_products_path, class: 'nav-link'
         %ul.navbar-nav
           %li.nav-item
@@ -18,7 +18,7 @@
             %a.nav-link.dropdown-toggle.py-2.btn.btn-sm#navDropDown{href:'#', role: 'button', data: {toggle: "dropdown"}, aria: {haspopup: "true", expended: "false"}}
               メニュー
             .dropdown-menu.dropdown-menu-right{aria: {labelledby: "navDropDown"}}
-              - if current_user.is_admin?
+              - if current_user.admin?
                 = link_to "ユーザの一覧",admin_users_path, class: 'dropdown-item'
                 = link_to "商品の登録",new_product_path, class: 'dropdown-item'
                 = link_to "商品の一覧",products_path, class: 'dropdown-item'

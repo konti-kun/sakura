@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe '商品の登録', type: :system do
-  let(:adminuser){create :user, is_admin: true}
-  let(:enduser){create :user, is_admin: false}
+  let(:adminuser){create :user, admin: true}
+  let(:enduser){create :user, admin: false}
 
   scenario "adminユーザでログインすると商品の登録メニューがありクリックすると画面遷移する" do
     sign_in adminuser

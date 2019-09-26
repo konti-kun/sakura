@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe '商品詳細', type: :system do
-  let(:adminuser){create :user, is_admin: true}
-  let(:enduser){create :user, is_admin: false}
+  let(:adminuser){create :user, admin: true}
+  let(:enduser){create :user, admin: false}
   let(:product){create :product, name: 'サンプル'}
 
   scenario "adminユーザの場合、編集のリンクがある" do

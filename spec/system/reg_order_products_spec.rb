@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'ショッピングカートの編集', type: :system do
-  let(:enduser){create :user, is_admin: false}
+  let(:enduser){create :user, admin: false}
   let(:product){create :product, name: 'サンプル', price: 10}
 
   scenario 'ログインせずカートに追加しようとするとログイン画面に遷移する' do

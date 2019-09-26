@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def after_sign_in_path_for(resource)
-    if resource.is_admin
+    if resource.admin
       products_path
     else
       root_path
@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   def admin?
     authenticate_user!
-    return if current_user.is_admin?
+    return if current_user.admin?
 
     flash[:notice] = 'admin権限が必要です。'
     redirect_to controller: 'home', action: 'index'
@@ -22,14 +22,14 @@ class ApplicationController < ActionController::Base
 
   def end_user?
     authenticate_user!
-    return unless current_user.is_admin?
+    return unless current_user.admin?
 
     flash[:notice] = 'ログアウトして一般ユーザでログインしてください。'
     redirect_to controller: 'products', action: 'index'
   end
 
   def configure_permitted_parameters
-    added_attrs = %i[email password password_confirmation is_admin]
+    added_attrs = %i[email password password_confirmation admin]
     devise_parameter_sanitizer.permit :sign_up, keys: [end_user_attributes: %i[name address]]
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
     devise_parameter_sanitizer.permit :sign_in, keys: added_attrs

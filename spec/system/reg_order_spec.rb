@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '購入手続きの登録', type: :system do
-  let(:user){create :user, is_admin: false }
+  let(:user){create :user, admin: false }
   let(:enduser){create :end_user, user: user, name: '桜太郎', address: '神奈川県' }
   let(:product1){create :product, name:'サンプル１', price:10}
   let(:product2){create :product, name:'サンプル２', price:20}

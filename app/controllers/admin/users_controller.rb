@@ -3,7 +3,7 @@ class Admin::UsersController < ApplicationController
   before_action :set_user, only: %w[edit update destroy]
 
   def index
-    @users = User.includes(:end_user).where(is_admin: false).order('id').page(params[:page]).per(20)
+    @users = User.includes(:end_user).where(admin: false).order('id').page(params[:page]).per(20)
   end
 
   def update
