@@ -3,8 +3,8 @@ class OrderProduct < ApplicationRecord
   belongs_to :product
   belongs_to :order, optional: true
 
-  validates :number, numericality: {only_integer: true, greater_than_or_equal_to: 1}
-  validates :user, :uniqueness => {:scope => [:product, :order], message: 'この商品はすでにカートに追加されています。'}
+  validates :number, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :user, uniqueness: { scope: %i[product order], message: 'この商品はすでにカートに追加されています。' }
 
   attribute :number, :integer, default: -> { 1 }
 
