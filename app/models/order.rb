@@ -13,24 +13,24 @@ class Order < ApplicationRecord
     '14 - 16' => 2,
     '16 - 18' => 3,
     '18 - 20' => 4,
-    '20 - 21' => 5,
+    '20 - 21' => 5
   }
 
   COD_TABLE = [
-    [0,      300],
-    [10000,  400],
-    [30000,  600],
-    [100000, 1000],
-  ]
+    [0,         300],
+    [10_000,    400],
+    [30_000,    600],
+    [100_000, 1_000]
+  ].freeze
 
   after_initialize do
-    self.name = user.end_user.name
-    self.address = user.end_user.address
+    self.name = user.name
+    self.address = user.address
   end
 
   def self.create_send_date
-    send_date_range = 2.business_day.from_now.to_date .. 13.business_day.from_now.to_date
-    send_date_range.select {|item| item.workday? }
+    send_date_range = 2.business_day.from_now.to_date..13.business_day.from_now.to_date
+    send_date_range.select { |item| item.workday? }
   end
 
   def calc_total_product_price
