@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.admin
-      products_path
+      admin_products_path
     else
       root_path
     end
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     return if current_user.admin?
 
     flash[:notice] = 'admin権限が必要です。'
-    redirect_to controller: 'home', action: 'index'
+    redirect_to :root
   end
 
   def end_user?
@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     return unless current_user.admin?
 
     flash[:notice] = 'ログアウトして一般ユーザでログインしてください。'
-    redirect_to controller: 'products', action: 'index'
+    redirect_to controller: 'admin/products', action: 'index'
   end
 
   def configure_permitted_parameters

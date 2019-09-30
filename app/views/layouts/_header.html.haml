@@ -20,8 +20,8 @@
             .dropdown-menu.dropdown-menu-right{aria: {labelledby: "navDropDown"}}
               - if current_user.admin?
                 = link_to "ユーザの一覧",admin_users_path, class: 'dropdown-item'
-                = link_to "商品の登録",new_product_path, class: 'dropdown-item'
-                = link_to "商品の一覧",products_path, class: 'dropdown-item'
+                = link_to "商品の登録",new_admin_product_path, class: 'dropdown-item'
+                = link_to "商品の一覧",admin_products_path, class: 'dropdown-item'
               - else
                 = link_to "購入履歴",orders_path, class: 'dropdown-item'
               .dropdown-divider

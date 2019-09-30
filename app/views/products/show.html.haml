@@ -27,4 +27,4 @@
       = f.button :submit,'カートに追加', class: 'btn-success'
 
 - if current_user&.admin?
-  = link_to '編集', edit_product_path(@product)
+  = link_to '編集', edit_admin_product_path(@product)

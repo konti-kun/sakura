@@ -11,7 +11,6 @@
       %th Sort key
       %th
       %th
-      %th
 
   %tbody
     - @products.each do |product|
@@ -23,12 +22,11 @@
         %td= product.explanation
         %td= product.is_displayed
         %td= product.sort_key
-        %td= link_to 'Show', product
-        %td= link_to 'Edit', edit_product_path(product)
-        %td= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= link_to 'Edit', edit_admin_product_path(product)
+        %td= link_to 'Destroy', admin_product_path(product), method: :delete, data: { confirm: '本当に削除しますか?' }
 
 %br
 .row.mt-4.justify-content-center
   = paginate @products
 
-= link_to 'New Product', new_product_path
+= link_to 'New Product', new_admin_product_path
