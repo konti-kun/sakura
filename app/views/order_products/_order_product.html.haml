@@ -9,6 +9,5 @@
       = "#{product.price}円"
     %div
       = "#{order_product.number}個"
-    - if delete_flg
-      .float-right
-        = link_to '削除する', order_product_path(order_product), method: :delete
+    - if block_given?
+      = yield
