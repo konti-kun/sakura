@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     return unless current_user.admin?
 
     flash[:notice] = 'ログアウトして一般ユーザでログインしてください。'
-    redirect_to controller: 'admin/products', action: 'index'
+    redirect_to admin_products_path
   end
 
   def configure_permitted_parameters
