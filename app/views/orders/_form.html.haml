@@ -1,0 +1,54 @@
+-# frozen_string_literal: true
+= simple_form_for(order) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .row.mt-4
+    .col
+      - order.order_products.each do |order_product|
+        = render order_product do
+          = f.hidden_field :order_products, multiple: true, value: order_product.id
+  .row.mt-4
+    .col
+      %table.table
+        %tbody
+          %tr
+            %td 商品金額合計
+            %td#total_product_price_value
+              = yen order.calc_total_product_price
+          %tr
+            %td 代引き手数料
+            %td#cod_value
+              = yen order.calc_cod
+          %tr
+            %td 送料
+            %td#send_fee_value
+              = yen order.calc_send_fee
+          %tr
+            %td 合計
+            %td#total_price_value
+              = yen order.calc_total_fee
+  .row.mt-4
+    .col
+      %table.table
+        %tbody
+          %tr
+            %td 送り先氏名
+            %td
+              = order.name
+          %tr
+            %td 送り先住所
+            %td
+              = order.address
+  .row.mt-4
+    .col
+      .form-inputs
+        = f.input :send_date, collection: Order.create_send_date
+        = f.input :send_timeframe, collection: Order.send_timeframes.keys
+        = f.hidden_field :name, value: order.name
+        = f.hidden_field :address, value: order.address
+        = f.hidden_field :total_fee, value: order.calc_total_fee
+  .row.mt-4
+    .col
+      .form-actions
+      = f.button :submit, '決定', class: 'btn btn-success'

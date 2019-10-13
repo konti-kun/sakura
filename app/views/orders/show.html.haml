@@ -1,0 +1,24 @@
+%p#notice= notice
+
+%p
+  %b References:
+  = @order.references
+%p
+  %b Name:
+  = @order.name
+%p
+  %b Address:
+  = @order.address
+%p
+  %b Send date:
+  = @order.send_date
+%p
+  %b Send timeframe:
+  = @order.send_timeframe
+%p
+  %b Total fee:
+  = @order.total_fee
+
+= link_to 'Edit', edit_order_path(@order)
+\|
+= link_to 'Back', orders_path

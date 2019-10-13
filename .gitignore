@@ -30,3 +30,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+uploads/
+coverage/
+/tags
+.DS_Store

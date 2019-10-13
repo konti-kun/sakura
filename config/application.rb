@@ -26,8 +26,15 @@ module Sakura
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+    config.time_zone = 'Tokyo'
 
     # Don't generate system test files.
+    config.i18n.default_locale = :ja
     config.generators.system_tests = nil
+    config.generators do |g|
+      g.javascript false
+      g.asset false
+      g.helper false
+    end
   end
 end

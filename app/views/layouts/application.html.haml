@@ -1,0 +1,22 @@
+!!!
+%html
+  %head
+    %title
+      さくらマーケット
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+
+  %body
+    = render 'layouts/header'
+    .container
+      - flash.each do |message_type, message|
+        - message_class = flash_class(message_type.to_sym)
+        .alert{class:"alert #{message_class}" , role: "alert"}
+          %strong
+            = message
+          %button.close{type: "button", data: {dismiss: "alert"}, aria: {label: "閉じる"}}
+            %span{aria: {hidden: "true"}} &times;
+      = yield

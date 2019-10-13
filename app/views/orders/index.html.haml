@@ -1,0 +1,22 @@
+%h1 購入履歴
+
+%table.table
+  %thead
+    %tr
+      %th 購入依頼日
+      %th 発送先氏名
+      %th 発送先住所
+      %th 発送日
+      %th 発送時間帯
+      %th 合計
+
+  %tbody
+    - @orders.each do |order|
+      %tr
+        %td= l(order.created_at,format: :long)
+        %td= order.name
+        %td= order.address
+        %td= order.send_date
+        %td= order.send_timeframe
+        %td= order.total_fee
+
