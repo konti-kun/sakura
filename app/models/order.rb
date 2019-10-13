@@ -64,13 +64,11 @@ class Order < ApplicationRecord
     return unless total_fee != calc_total_fee
 
     errors.add(:base, '更新処理中に金額に変更がありました。金額をお確かめの上、再度購入処理をお願いします。')
-    raise ActiveRecord::RecordInvalid.new(self)
   end
 
   def check_order_products
     return unless OrderProduct.where(id: order_product_ids).where.not(order_id: nil).exists?
 
     errors.add(:base, '更新処理中に対象商品に変更がありました。内容をお確かめの上、再度購入処理をお願いします。')
-    raise ActiveRecord::RecordInvalid.new(self)
   end
 end
