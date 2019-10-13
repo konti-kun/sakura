@@ -8,6 +8,6 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = Product.find(params[:id])
+    @product = Product.published.find(params[:id])
   end
 end
