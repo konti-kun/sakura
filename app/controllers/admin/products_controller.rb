@@ -1,6 +1,6 @@
 class Admin::ProductsController < ApplicationController
   before_action :set_product, only: %w[edit update destroy]
-  before_action :admin?
+  before_action :authenticate_admin_user!
 
   def index
     @products = Product.order(sort_key: 'DESC').page(params[:page]).per(20)

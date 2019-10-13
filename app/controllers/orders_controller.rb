@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :end_user?, only: %w[index new create]
+  before_action :authenticate_end_user!, only: %w[index new create]
 
   def index
     @orders = current_user.orders.order('created_at DESC').page(params[:page]).per(20)

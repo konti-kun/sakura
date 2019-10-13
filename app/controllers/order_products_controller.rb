@@ -1,6 +1,6 @@
 class OrderProductsController < ApplicationController
   before_action :set_order_product, only: %w[destroy]
-  before_action :end_user?, only: %w[index create]
+  before_action :authenticate_end_user!, only: %w[index create]
 
   def index
     @order_products = current_user.cart

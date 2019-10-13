@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def admin?
+  def authenticate_admin_user!
     authenticate_user!
     return if current_user.admin?
 
@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
     redirect_to :root
   end
 
-  def end_user?
+  def authenticate_end_user!
     authenticate_user!
     return unless current_user.admin?
 

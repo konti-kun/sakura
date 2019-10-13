@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :admin?
+  before_action :authenticate_admin_user!
   before_action :set_user, only: %w[edit update destroy]
 
   def index
