@@ -3,7 +3,7 @@ class Admin::ProductsController < ApplicationController
   before_action :admin?
 
   def index
-    @products = Product.all.order('sort_key DESC').page(params[:page]).per(20)
+    @products = Product.order(sort_key: 'DESC').page(params[:page]).per(20)
   end
 
   def new
