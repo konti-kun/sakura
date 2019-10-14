@@ -16,7 +16,7 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
   end
 
   describe "enduserでログイン後、商品詳細から1個でショッピングカートに登録ができる" do
-    before do 
+    before do
       sign_in enduser
       visit product_path product.id
       click_button 'カートに追加'
@@ -29,7 +29,7 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
     scenario '商品名が表示される' do
       expect(page).to have_content 'サンプル'
     end
-    
+
     scenario '個数が表示される' do
       expect(page).to have_content '1個'
     end
@@ -42,7 +42,7 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
   scenario "個数を指定して登録ができる" do
     sign_in enduser
     visit product_path product.id
-    fill_in 'order_product_number', with: '10'
+    fill_in 'shopping_product_number', with: '10'
     click_button 'カートに追加'
     expect(page).to have_content '10個'
   end
@@ -50,7 +50,7 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
   scenario "0個を指定するとエラーとなる" do
     sign_in enduser
     visit product_path product.id
-    fill_in 'order_product_number', with: '0'
+    fill_in 'shopping_product_number', with: '0'
     expect{
       click_button 'カートに追加'
     }.not_to change{OrderProduct.count}.from(0)
@@ -81,7 +81,7 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
       expect{
         click_button 'カートに追加'
       }.not_to(
-        change{ OrderProduct.count }.from(1)
+        change{ ShoppingProduct.count }.from(1)
       )
     end
   end

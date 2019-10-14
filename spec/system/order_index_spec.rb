@@ -21,7 +21,7 @@ RSpec.describe 'エンドユーザ向け購入履歴一覧', type: :system do
   scenario '購入処理が行われているものだけを表示' do
     sign_in enduser.user
     order = create :order, :skip_validate, user: enduser.user, send_date: '2019-01-01', send_timeframe: '8 - 12', total_fee: 1000
-    create :order_product, product: product, user: enduser.user, order: order
+    create :order_product, product: product, order: order
     visit orders_path
     expect(page).to have_content '1000'
     expect(page).to have_content '2019-01-01'

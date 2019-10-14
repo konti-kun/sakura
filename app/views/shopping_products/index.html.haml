@@ -1,0 +1,9 @@
+%h1 ショッピングカート
+
+- @shopping_products.each do |shopping_product|
+  = render shopping_product do
+    .float-right
+      = link_to '削除する', shopping_product_path(shopping_product), method: :delete
+
+.row.create_order.mt-3
+  = link_to '購入手続きへ', new_order_path

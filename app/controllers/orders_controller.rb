@@ -6,19 +6,21 @@ class OrdersController < ApplicationController
   end
 
   def new
-    unless current_user.cart.exists?
+    unless current_user.shopping_products.exists?
       flash[:danger] = '商品を選択してください。'
       redirect_to controller: 'home', action: 'index'
     end
-    @order = current_user.orders.new
-    @order.order_products = current_user.cart
+    order_products = current_user.shopping_products.map do |shopping_product|
+      shopping_product.slice('product_id', 'number')
+    end
+    @order = current_user.orders.new(order_products_attributes: order_products)
   end
 
   def create
     Order.transaction do
-      @order = current_user.orders.new(order_params)
-      @order.order_product_ids = order_products_params['order_products']
+      @order = current_user.orders.build(order_params)
       @order.save!
+      current_user.shopping_products.delete_all
       flash[:notice] = '購入処理が完了しました。'
       redirect_to controller: 'home', action: 'index'
     end
@@ -29,10 +31,6 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee)
-  end
-
-  def order_products_params
-    params.require(:order).permit(order_products: [])
+    params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee, order_products_attributes: [:product_id, :number])
   end
 end
