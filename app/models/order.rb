@@ -67,7 +67,10 @@ class Order < ApplicationRecord
   end
 
   def check_order_products
-    return unless OrderProduct.where(id: order_product_ids).where.not(order_id: nil).exists?
+    slice_product_number = proc { |p| p.slice('product_id', 'number') }
+    op_params = order_products.map(&slice_product_number)
+    sp_params = user.shopping_products.map(&slice_product_number)
+    return if op_params == sp_params
 
     errors.add(:base, '更新処理中に対象商品に変更がありました。内容をお確かめの上、再度購入処理をお願いします。')
   end

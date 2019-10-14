@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   resources :products, only: %i[show]
   resources :orders, only: %i[index new create]
-  resources :order_products, only: %i[index create destroy]
+  resources :shopping_products, only: %i[index create destroy]
   devise_for :users, controllers: {
     registrations: 'registrations'
   }

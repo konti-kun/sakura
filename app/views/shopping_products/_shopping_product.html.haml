@@ -1,6 +1,6 @@
 .media.mb-3
   %a.mr-3{href:'#'}
-    - product = order_product.product
+    - product = shopping_product.product
     = image_tag product.image.to_s, size: '100x100'
   .media-body
     %h5.mt-0
@@ -8,6 +8,6 @@
     %div
       = "#{product.price}円"
     %div
-      = "#{order_product.number}個"
+      = "#{shopping_product.number}個"
     - if block_given?
       = yield

@@ -6,8 +6,10 @@
   .row.mt-4
     .col
       - order.order_products.each do |order_product|
-        = render order_product do
-          = f.hidden_field :order_products, multiple: true, value: order_product.id
+        = render 'shopping_products/shopping_product', shopping_product: order_product do
+          = f.fields_for :order_products do |fop|
+            = fop.hidden_field :product_id, value: order_product.product_id
+            = fop.hidden_field :number, value: order_product.number
   .row.mt-4
     .col
       %table.table
