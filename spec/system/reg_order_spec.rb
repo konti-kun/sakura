@@ -35,18 +35,6 @@ RSpec.describe '購入手続きの登録', type: :system do
       visit shopping_products_path
     end
 
-    scenario "1商品1個の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 1
-      click_link '購入手続きへ'
-      expect(find("#total_product_price_value")).to have_content '10円'
-    end
-
-    scenario "1商品2個の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 2
-      click_link '購入手続きへ'
-      expect(find("#total_product_price_value")).to have_content '20円'
-    end
-
     scenario "2商品2個ずつの場合" do
       create :shopping_product, user: enduser.user, product: product1, number: 2
       create :shopping_product, user: enduser.user, product: product2, number: 2
@@ -60,36 +48,10 @@ RSpec.describe '購入手続きの登録', type: :system do
       visit shopping_products_path
     end
 
-    scenario "10000円以下の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 1
-      click_link '購入手続きへ'
-      expect(find("#cod_value")).to have_content '300円'
-    end
-
-    scenario "10000円の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 1000
-      click_link '購入手続きへ'
-      expect(find("#cod_value")).to have_content '400円'
-    end
     scenario "10010円の場合" do
       create :shopping_product, user: enduser.user, product: product1, number: 1001
       click_link '購入手続きへ'
       expect(find("#cod_value")).to have_content '400円'
-    end
-    scenario "30000円の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 3000
-      click_link '購入手続きへ'
-      expect(find("#cod_value")).to have_content '600円'
-    end
-    scenario "100000円の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 10000
-      click_link '購入手続きへ'
-      expect(find("#cod_value")).to have_content '1000円'
-    end
-    scenario "100000円以上の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 11000
-      click_link '購入手続きへ'
-      expect(find("#cod_value")).to have_content '1000円'
     end
   end
 
@@ -105,30 +67,13 @@ RSpec.describe '購入手続きの登録', type: :system do
       expect(find("#send_fee_value")).to have_content '600円'
     end
 
-    scenario "1商品５個の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 5
-      click_link '購入手続きへ'
-      expect(find("#send_fee_value")).to have_content '600円'
+    scenario "購入手続き画面で合計値を表示する" do
+        sign_in enduser.user
+        visit shopping_products_path
+        create :shopping_product, user: enduser.user, product: product1, number: 1
+        click_link '購入手続きへ'
+        expect(find("#total_price_value")).to have_content "982円"
     end
-    scenario "1商品6個の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 6
-      click_link '購入手続きへ'
-      expect(find("#send_fee_value")).to have_content '1200円'
-    end
-    scenario "2商品6個の場合" do
-      create :shopping_product, user: enduser.user, product: product1, number: 5
-      create :shopping_product, user: enduser.user, product: product2, number: 1
-      click_link '購入手続きへ'
-      expect(find("#send_fee_value")).to have_content '1200円'
-    end
-  end
-
-  scenario "購入手続き画面で合計値を表示する" do
-      sign_in enduser.user
-      visit shopping_products_path
-      create :shopping_product, user: enduser.user, product: product1, number: 1
-      click_link '購入手続きへ'
-      expect(find("#total_price_value")).to have_content "982円"
   end
 
   describe "発送可能日が営業日3日から１４日であること" do
@@ -145,7 +90,6 @@ RSpec.describe '購入手続きの登録', type: :system do
       end
       expect(page).to have_select '発送日', options: [""] + %w(2019-09-19 2019-09-20 2019-09-23 2019-09-24 2019-09-25 2019-09-26 2019-09-27 2019-09-30 2019-10-01 2019-10-02 2019-10-03 2019-10-04)
     end
-
   end
 
   scenario "発送日は必須であること" do
@@ -254,4 +198,4 @@ RSpec.describe '購入手続きの登録', type: :system do
     end
   end
 
-end
+  end
