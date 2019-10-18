@@ -10,10 +10,7 @@ class OrdersController < ApplicationController
       flash[:danger] = '商品を選択してください。'
       redirect_to controller: 'home', action: 'index'
     end
-    order_products = current_user.shopping_products.map do |shopping_product|
-      shopping_product.slice('product_id', 'number')
-    end
-    @order = current_user.orders.new(order_products_attributes: order_products)
+    @order = current_user.orders.new(order_products_attributes: create_order_products)
   end
 
   def create
@@ -30,7 +27,13 @@ class OrdersController < ApplicationController
 
   private
 
+  def create_order_products
+    current_user.shopping_products.map do |shopping_product|
+      shopping_product.slice('product_id', 'number')
+    end
+  end
+
   def order_params
-    params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee, order_products_attributes: [:product_id, :number])
+    params.require(:order).permit(:name, :address, :send_date, :send_timeframe, :total_fee, order_products_attributes: %i[product_id number])
   end
 end
