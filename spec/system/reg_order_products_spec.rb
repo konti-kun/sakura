@@ -64,7 +64,7 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
     expect(page).to have_no_content 'サンプル'
   end
 
-  describe "同じ商品を一度に登録できない" do
+  describe "同じ商品は追加される" do
     before do
       sign_in enduser
       visit product_path product.id
@@ -72,16 +72,18 @@ RSpec.describe 'ショッピングカートの編集', type: :system do
       visit product_path product.id
     end
 
-    scenario 'エラーメッセージが表示される' do
-      click_button 'カートに追加'
-      expect(page).to have_content "この商品はすでにカートに追加されています。"
-    end
-
     scenario 'データが登録されてない' do
       expect{
         click_button 'カートに追加'
       }.not_to(
         change{ ShoppingProduct.count }.from(1)
+      )
+    end
+    scenario '個数が追加される' do
+      expect{
+        click_button 'カートに追加'
+      }.to(
+        change{ ShoppingProduct.first.number }.from(1).to(2)
       )
     end
   end
