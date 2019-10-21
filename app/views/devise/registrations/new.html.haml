@@ -15,5 +15,7 @@
         = f.simple_fields_for :end_user, @user.end_user do |b|
           = b.input :name, label: false, placeholder: '名前'
           = b.input :address, label: false, placeholder: '住所'
+          = b.input :nickname , label: false, placeholder: 'ニックネーム'
+          = b.input :image, label: false, placeholder: '画像'
       .form-actions
         = f.button :submit, "登録", class: 'btn-success btn-block'
